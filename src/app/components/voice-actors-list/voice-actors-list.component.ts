@@ -14,9 +14,7 @@ export class VoiceActorsListComponent implements OnInit {
   public form: FormGroup;
 
   public validate_messages = {
-    'keyWord': [
-      { type: 'saldoAfavor', message: 'Tienes saldo a favor, no es posible realizar un pago' },
-      { type: 'valorNegativo', message: 'Selecciona otro valor' },
+    'keyWords': [
       { type: 'required', message: 'Please enter a keyword' },
     ],
   };
