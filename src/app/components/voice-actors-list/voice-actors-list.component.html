@@ -1,0 +1,59 @@
+<mat-toolbar color="primary">
+  <span>Voice Actors Search</span>
+</mat-toolbar>
+
+
+
+<mat-card>
+    <div class="form-div">
+  <form [formGroup]="form" (keypress)="enterBreak($event)">
+      <mat-form-field class="form-element">
+        <input matInput type="text" placeholder="Enter your key words" formControlName="keyWords" id="keyWord-id">
+        <mat-error *ngFor="let validation of validate_messages.required">
+          <mat-error class="error-message" *ngIf="form.get('keyWord').hasError(validation.type) && (form.get('keyWord').dirty || form.get('keyWord').touched)">{{validation.message}}</mat-error>
+        </mat-error>
+      </mat-form-field>
+
+    <div class="form-element">
+        <button mat-raised-button color="primary" type="submit" (click)="searchVoiceActors()" class="button" [disabled]="!form.valid">Search</button>
+      </div>
+  </form>
+
+</div>
+</mat-card>
+
+<div *ngIf="voiceActorsList">
+
+  <div *ngFor="let voiceActors of voiceActorsList?.providers | paginate: { itemsPerPage: count, currentPage: p }" class="colorNested box" fxlayout="row" style="flex-direction: row; box-sizing: border-box; display: flex;">
+  <mat-card class="mat-card-li">
+    <div fxflex="50%" fxflex.gt-sm="25" fxhide.md="" style="cursor: pointer; flex-direction: row; box-sizing: border-box; display: flex; flex: 1 1 100%; max-width: 25%;">
+        <div fxflex="" style="flex: 1 1 1e-09px; box-sizing: border-box;">
+            <div><img class="imgVA" src="{{ voiceActors?.user?.picture_small}}" alt=""></div>
+        </div>
+        <div fxflex="" style="flex: 1 1 1e-09px; box-sizing: border-box;">
+            <a href="https://voice123.com/{{ voiceActors?.user?.username }}" target="_blank">{{ voiceActors?.user?.name }} </a>
+        </div>
+      </div>
+      <div fxflex="" style="cursor: pointer; flex-direction: column; box-sizing: border-box; display: flex; flex: 1 1 0%;">
+        <div fxflex="" style="flex: 1 1 1e-09px; box-sizing: border-box;">
+          Col #2: First item in column
+        </div>
+        <div fxflex="" style="flex: 1 1 1e-09px; box-sizing: border-box;">
+            <mat-basic-audio-player [audioUrl]='msbapAudioUrl' [title]="msbapTitle" 
+            [displayTitle]="msbapDisplayTitle" [displayVolumeControls]="msaapDisplayVolumeControls" ></mat-basic-audio-player>
+        </div>
+      </div>
+    </mat-card>
+    <mat-divider></mat-divider>
+  </div>
+
+  <!--Including the pagination control.-->
+  <div class="text-right">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>
+
+<div *ngIf="!voiceActorsList">
+    <h1 class="banner">No results yet</h1>
+</div>
+
